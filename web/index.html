@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="FitFlow fitness app">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="fitflow">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>FitFlow</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    var serviceWorkerVersion = null;
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
+  
+  <!-- Add loader styles for better UX -->
+  <style>
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: #50A8D0;
+    }
+    
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 8px solid #4BBEB6;
+      width: 60px;
+      height: 60px;
+      animation: spin 2s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .app-name {
+      position: absolute;
+      bottom: 10%;
+      font-family: 'Arial', sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading indicator -->
+  <div class="loading" id="loading">
+    <div class="loader"></div>
+    <div class="app-name">FitFlow</div>
+  </div>
+
+  <!-- Firebase Configuration -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1EQU7E8ewhRD9qFhlxgXrBxWu_QN0CtM",
+      authDomain: "fitflow-app-1c73a.firebaseapp.com",
+      projectId: "fitflow-app-1c73a",
+      storageBucket: "fitflow-app-1c73a.appspot.com",
+      messagingSenderId: "485629032913",
+      appId: "1:485629032913:web:0ad4f81838d79e9ed88b67"
+    };
+
+    // Wait for window load to ensure all Firebase SDKs are loaded
+    window.addEventListener('load', function() {
+      // Initialize Firebase
+      if (typeof firebase !== 'undefined') {
+        try {
+          if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+          }
+          firebase.analytics();
+          console.log("Firebase initialized successfully");
+        } catch (e) {
+          console.error("Firebase initialization failed:", e);
+        }
+      } else {
+        console.warn("Firebase SDK not loaded");
+      }
+    });
+  </script>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Remove the loading indicator once Flutter is initialized
+      var loadingElement = document.querySelector('#loading');
+      
+      // Download main.dart.js
+      _flutter.loader.load({
+        serviceWorker: {
+          serviceWorkerVersion: '{{flutter_service_worker_version}}',
+        }
+      }).then(function(engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function(appRunner) {
+        if (loadingElement) {
+          loadingElement.remove();
+        }
+        return appRunner.runApp();
+      });
+    });
+  </script>
+</body>
+</html>
